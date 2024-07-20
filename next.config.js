@@ -64,14 +64,6 @@ const nextConfig = {
 			}
 		];
 	},
-	async rewrites() {
-		return [
-			{
-				source: "/close-friends",
-				destination: "https://private.pratyushsudhakar.com/"
-			}
-		];
-	},
 	webpack: (config, options) => {
 		config.module.rules.push({
 			test: /\.(graphql|gql)/,

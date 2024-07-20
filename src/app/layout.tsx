@@ -1,5 +1,8 @@
-import { CloseFriendsLayout } from "@/components";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "@/app/globals.css";
+import "@/styles/scrollbar.css";
+import "@/styles/editor.css";
+import { Hotkeys } from "@/ui/Keyboard";
 
 export const metadata = {
 	title: "Pratyush's Personal Blog and Video Sharing Platform",
@@ -10,8 +13,10 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<main>
-			<CloseFriendsLayout>{children}</CloseFriendsLayout>
-		</main>
+		<html lang="en">
+			<Hotkeys />
+			<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_PRIVATE_GOOGLE_ID!} />
+			<body>{children}</body>
+		</html>
 	);
 }

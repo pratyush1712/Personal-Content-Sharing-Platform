@@ -1,18 +1,11 @@
-import { Container } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { ContentDisplay } from "@/components";
 import Fuse from "fuse.js";
 import { Content } from "@/types";
 import { getClient } from "@/graphql/client/apolloClient";
-import { getServerSession } from "next-auth";
 import { GET_CONTENTS } from "@/graphql/client/queries";
 
 export const dynamic = "force-dynamic";
-
-const accessLevels = (session: any) => {
-	if (!session) return "public";
-	if (session.user?.email === "pratyushsudhakar03@gmail.com") return "private";
-	return "close-friends";
-};
 
 const getData = async (
 	searchTerm: string = "",
@@ -20,10 +13,8 @@ const getData = async (
 	filterKey: string = "all",
 	tagFilterKeys: string[] = []
 ) => {
-	const session = await getServerSession();
-	const access = accessLevels(session);
 	const client = getClient();
-	const { data } = await client.query({ query: GET_CONTENTS, variables: { access } });
+	const { data } = await client.query({ query: GET_CONTENTS, variables: { access: "private" } });
 	const fuseOptions = {
 		keys: ["title", "details", "keywords"],
 		includeScore: true,
@@ -57,7 +48,7 @@ const getData = async (
 	return filteredFeatures;
 };
 
-export default async function CloseFriends({
+export default async function AdminDashboard({
 	searchParams
 }: {
 	searchParams: {
@@ -68,14 +59,17 @@ export default async function CloseFriends({
 	};
 }) {
 	const data = await getData(
-		searchParams.searchTerm! || "",
+		searchParams.searchTerm || "",
 		searchParams.sortKey || "createdAt",
 		searchParams.filterKey || "all",
-		searchParams.tagFilterKeys as string[]
+		searchParams.tagFilterKeys || []
 	);
 	return (
-		<Container maxWidth="md" sx={{ minWidth: "100%", margin: "auto" }}>
-			<ContentDisplay params={searchParams} data={data} admin={false} />
+		<Container maxWidth="lg">
+			<Typography variant="h4" sx={{ mt: 4 }}>
+				Admin Dashboard
+			</Typography>
+			<ContentDisplay data={data} params={searchParams} admin={true} />
 		</Container>
 	);
 }

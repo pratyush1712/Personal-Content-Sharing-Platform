@@ -1,5 +1,5 @@
 import "@/app/globals.css";
-import { AuthLayout } from "@/components/CloseFriends";
+import { AuthLayout } from "@/components";
 
 export const metadata = {
 	title: "Close Friends Login",
