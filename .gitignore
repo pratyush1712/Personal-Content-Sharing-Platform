@@ -38,17 +38,9 @@ next-env.d.ts
 # development
 .vscode
 
-# latex
-*.aux
-*.fdb_latexmk
-*.fls
-*.log
-*.out
-*.synctex.gz
 # next-video
 !public/videos/*.json
 !public/videos/*.js
 !public/videos/*.ts
 public/_next-video
 .env*.local
-index.html
